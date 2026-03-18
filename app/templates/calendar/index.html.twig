@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kalender{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('calendar') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('calendar') }}
+{% endblock %}
+
+{% block body %}
+    <section class="app-calendar" data-controller="calendar">
+        <div class="app-calendar-overlay" data-calendar-target="overlay" hidden></div>
+        <p class="app-calendar-loading u-text-center" data-calendar-target="loading" hidden>Lädt...</p>
+
+        <div class="app-content-box">
+            {{ include('calendar/_form.html.twig', { calendarForm: calendarForm }) }}
+        </div>
+        
+        <div class="app-content-box">
+            <p class="u-text-center" data-calendar-target="emptyState">
+                Du hast noch keine Kalender-Einträge.
+            </p>
+
+            <div data-calendar-target="tableWrapper" hidden>
+                <table class="app-calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Bezeichnung</th>
+                            <th>Erinnerung</th>
+                            <th>Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody data-calendar-target="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

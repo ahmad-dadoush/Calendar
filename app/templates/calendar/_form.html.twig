@@ -1,0 +1,19 @@
+{{ form_start(calendarForm) }}
+    <div class="u-flex u-w-90 u-justify-between">
+        <div>
+            <label>Datum (TT/MM)</label>
+            <div class="u-flex u-gap-0-5">
+                {{ form_widget(calendarForm.day) }}
+                {{ form_widget(calendarForm.month) }}
+            </div>
+        </div>
+
+        {{ form_row(calendarForm.description) }}
+        {{ form_row(calendarForm.reminderDays) }}
+    </div>
+
+    <div class="u-flex u-gap-1 u-ml-auto">
+        <button type="button" data-action="click->calendar#reset" data-calendar-target="cancelButton" hidden>Abbrechen</button>
+        <button type="submit" data-calendar-target="submitButton">Speichern</button>
+    </div>
+{{ form_end(calendarForm) }}

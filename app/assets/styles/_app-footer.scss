@@ -1,0 +1,30 @@
+@mixin styles {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+
+    .corner {
+        width: 1rem;
+        height: 1rem;
+
+        &--left {
+            border-radius: 0 0.4rem;
+            border-left: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        &--right {
+            border-radius: 0.4rem 0;
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+    }
+}
+
+@mixin mobile-styles {
+    width: auto;
+    padding: 1rem;
+}

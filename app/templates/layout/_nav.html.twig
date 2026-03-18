@@ -1,0 +1,23 @@
+{% apply spaceless %}
+
+{% if app.user %}
+    {% set currentRoute = app.request.attributes.get('_route') %}
+    {% set navItems = [
+        { route: 'app_home', label: 'Home' },
+        { route: 'app_calendar', label: 'Kalendar' }
+    ] %}
+
+    <nav aria-label="Hauptnavigation" class="app-nav">
+        <ul class="app-nav-list">
+            {% for item in navItems %}
+                <li{% if currentRoute == item.route %} class="is-active"{% endif %}>
+                    <a href="{{ path(item.route) }}">{{ item.label }}</a>
+                </li>
+            {% endfor %}
+            <li><a href="{{ path('app_logout') }}">Abmelden</a></li>
+        </ul>
+    </nav>
+{% endif %}
+
+{% endapply %}
+

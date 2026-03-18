@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% set seoTitle = block('title')|trim ?: 'Welcome!' %}
+        {% set seoDescription %}{% block seo_description %}Microlab assessment web application built with Symfony.{% endblock %}{% endset %}
+        {% set seoCanonical %}{% block seo_canonical %}{{ app.request.uri }}{% endblock %}{% endset %}
+        <title>{{ seoTitle }}</title>
+        <meta name="description" content="{{ seoDescription|trim }}">
+        <meta name="robots" content="index,follow">
+        <link rel="canonical" href="{{ seoCanonical|trim }}">
+
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ seoTitle }}">
+        <meta property="og:description" content="{{ seoDescription|trim }}">
+        <meta property="og:url" content="{{ seoCanonical|trim }}">
+        <meta property="og:site_name" content="Microlab">
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ seoTitle }}">
+        <meta name="twitter:description" content="{{ seoDescription|trim }}">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="app-shell">
+            <header class="app-header" aria-label="Seitenkopf">
+                {% block app_header %}
+                    {{ include('layout/_header.html.twig') }}
+                {% endblock %}
+            </header>
+
+            <div class="app-main-grid">
+                <aside class="app-sidebar app-sidebar--left" id="app-sidebar-left" aria-label="Linke Seitenleiste">
+                    {% block app_sidebar_left %}
+                        {% embed "layout/_sidebar.html.twig" %}
+                            {% block sidebar_content %}
+                                {% include 'layout/_nav.html.twig' %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endblock %}
+                </aside>
+
+                <main class="app-content" aria-label="Hauptinhalt">
+                    {% block body %}{% endblock %}
+                </main>
+
+                <aside class="app-sidebar app-sidebar--right" aria-label="Rechte Seitenleiste">
+                    {% block app_sidebar_right %}
+                        {{ include('layout/_sidebar.html.twig') }}
+                    {% endblock %}
+                </aside>
+            </div>
+
+            {{ include('layout/_footer.html.twig') }}
+            <div class="app-menu-overlay" data-app-menu-overlay></div>
+        </div>
+    </body>
+</html>

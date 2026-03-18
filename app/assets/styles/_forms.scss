@@ -1,0 +1,31 @@
+form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.25rem;
+        border: 1px solid var(--border-color);
+        font-size: 1rem;
+    }
+
+
+    button {
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        border: none;
+        background-color: transparent;
+        color: var(--primary-color);
+        font-size: medium;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Anmeldung{% endblock %}
+
+{% block body %}
+    <section>
+        <h1 class="u-text-center">Anmelden</h1>
+
+        {% if error %}
+            <div class="u-text-center u-error">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form class="u-flex-center u-gap-1" method="post">
+            <div>
+                <label for="username">Email</label>
+                <input id="username" name="_username" type="email" value="{{ last_username }}" required autofocus>
+            </div>
+
+            <div>
+                <label for="password">Passwort</label>
+                <input id="password" name="_password" type="password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit">Anmelden</button>
+        </form>
+
+        <p class="u-text-center">Noch kein Konto? <a href="{{ path('app_register') }}">Registrieren</a></p>
+    </section>
+{% endblock %}

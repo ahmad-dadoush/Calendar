@@ -1,0 +1,10 @@
+$background-color: #ffffff;
+$primary-color: #6f7073;
+$red-color: #ff0000;
+
+:root {
+	--background-color: #{$background-color};
+	--primary-color: #{$primary-color};
+    --border-color: #{$primary-color};
+	--error: #{$red-color};
+}

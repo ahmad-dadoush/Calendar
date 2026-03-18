@@ -1,0 +1,48 @@
+@mixin styles {
+    padding: 6rem 1rem 0 0;
+    max-width: calc(75% + 2rem);
+
+    &-inner {
+        margin: 0 auto;
+        text-align: right;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+
+    .app-menu-toggle {
+        display: none;
+    }
+
+    &-line {
+        margin-bottom: 1rem;
+        width: 100%;
+        height: 1px;
+        background-color: var(--border-color);
+    }
+
+    &-title {
+        display: inline-block;
+        font-size: 4rem;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+    }
+}
+
+@mixin mobile-styles {
+    padding: 3rem 0.5rem 0 0.5rem;
+
+    &-inner {
+        justify-content: flex-end;
+    }
+
+    .app-menu-toggle {
+        display: inline-flex;
+        margin-right: auto;
+    }
+
+    &-title {
+        font-size: 3rem;
+    }
+}

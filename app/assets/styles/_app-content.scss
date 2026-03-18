@@ -1,0 +1,19 @@
+@mixin styles($bars-height) {
+    box-sizing: border-box;
+    min-height: $bars-height;
+    padding: 2rem;
+    padding-bottom: 0;
+
+    &-box {
+        border: 1px solid var(--border-color);
+        padding: 0.5rem;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+@mixin mobile-styles {
+    padding: 1rem;
+}
