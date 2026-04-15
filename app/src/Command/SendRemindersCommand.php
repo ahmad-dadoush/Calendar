@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
@@ -21,6 +22,10 @@ class SendRemindersCommand extends Command
     public function __construct(
         private readonly CalendarItemRepository $calendarItemRepository,
         private readonly MailerInterface $mailer,
+        #[Autowire('%env(string:REMINDER_FROM_EMAIL)%')]
+        private readonly string $reminderFromEmail,
+        #[Autowire('%env(string:REMINDER_FROM_NAME)%')]
+        private readonly string $reminderFromName,
     ) {
         parent::__construct();
     }
@@ -41,7 +46,7 @@ class SendRemindersCommand extends Command
         foreach ($items as $item) {
             try {
                 $email = (new TemplatedEmail())
-                    ->from(new Address('no-reply@microlab.local', 'Micro Lab Reminder'))
+                    ->from(new Address($this->reminderFromEmail, $this->reminderFromName))
                     ->to(new Address($item->getUser()->getEmail()))
                     ->subject('Erinnerung: ' . $item->getDescription() . ' am ' . $item->getDate()->format('d.m.Y'))
                     ->htmlTemplate('email/reminder.html.twig')
