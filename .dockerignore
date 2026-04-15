@@ -3,3 +3,9 @@
 node_modules
 var
 vendor
+app/node_modules
+app/var
+app/vendor
+app/public/build
+app/.env.local
+app/.env.*.local

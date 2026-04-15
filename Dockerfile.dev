@@ -1,0 +1,27 @@
+FROM php:8.3-fpm-bookworm
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        unzip \
+        nodejs \
+        npm \
+        libicu-dev \
+        libpq-dev \
+        libzip-dev \
+        zip \
+    && docker-php-ext-install \
+        intl \
+        opcache \
+        pdo \
+        pdo_pgsql \
+        zip \
+    && npm install -g yarn webpack webpack-cli \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+CMD ["php-fpm"]

@@ -2,13 +2,13 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: microlab_php
     working_dir: /var/www/html/app
     volumes:
       - ./:/var/www/html
     environment:
-      APP_ENV: prod
+      APP_ENV: dev
       DATABASE_URL: postgresql://symfony:symfony@database:5432/app?serverVersion=16&charset=utf8
       MAILER_DSN: smtp://mailpit:1025
     depends_on:
