@@ -26,6 +26,7 @@ The assessment deliverable itself is the Symfony web solution in `app/`.
 - Published images:
   - `ghcr.io/ahmad-dadoush/calendar-php:<tag>`
   - `ghcr.io/ahmad-dadoush/calendar-nginx:<tag>`
+- Images are published as multi-arch (`linux/amd64` and `linux/arm64`).
 - After image publish, the workflow also deploys the same tag to your server over SSH.
 
 Required GitHub repository secrets:
