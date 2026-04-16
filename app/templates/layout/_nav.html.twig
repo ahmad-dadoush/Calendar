@@ -15,7 +15,12 @@
                     <a href="{{ path(item.route) }}">{{ item.label }}</a>
                 </li>
             {% endfor %}
-            <li><a href="{{ path('app_logout') }}">Abmelden</a></li>
+            <li>
+                <form method="post" action="{{ path('app_logout') }}" data-turbo="false" data-turbo-prefetch="false">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                    <button type="submit">Abmelden</button>
+                </form>
+            </li>
         </ul>
     </nav>
 {% endif %}
