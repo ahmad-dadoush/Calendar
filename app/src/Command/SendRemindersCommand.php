@@ -2,16 +2,12 @@
 
 namespace App\Command;
 
-use App\Repository\CalendarItemRepository;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Service\ReminderService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 
 #[AsCommand(
     name: 'app:send-reminders',
@@ -20,12 +16,7 @@ use Symfony\Component\Mime\Address;
 class SendRemindersCommand extends Command
 {
     public function __construct(
-        private readonly CalendarItemRepository $calendarItemRepository,
-        private readonly MailerInterface $mailer,
-        #[Autowire('%env(string:REMINDER_FROM_EMAIL)%')]
-        private readonly string $reminderFromEmail,
-        #[Autowire('%env(string:REMINDER_FROM_NAME)%')]
-        private readonly string $reminderFromName,
+        private readonly ReminderService $reminderService,
     ) {
         parent::__construct();
     }
@@ -33,36 +24,23 @@ class SendRemindersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $items = $this->calendarItemRepository->findDueForReminderToday();
+        $result = $this->reminderService->sendReminders();
 
-        if (empty($items)) {
+        if ($result['sent'] === 0 && $result['failed'] === 0) {
             $io->info('Keine Erinnerungen für heute.');
             return Command::SUCCESS;
         }
 
-        $sent = 0;
-        $failed = 0;
-
-        foreach ($items as $item) {
-            try {
-                $email = (new TemplatedEmail())
-                    ->from(new Address($this->reminderFromEmail, $this->reminderFromName))
-                    ->to(new Address($item->getUser()->getEmail()))
-                    ->subject('Erinnerung: ' . $item->getDescription() . ' am ' . $item->getDate()->format('d.m.Y'))
-                    ->htmlTemplate('email/reminder.html.twig')
-                    ->context(['item' => $item]);
-
-                $this->mailer->send($email);
-                ++$sent;
-                $io->writeln(sprintf('  ✓ Gesendet an %s (Termin: %s)', $item->getUser()->getEmail(), $item->getDate()->format('d.m.Y')));
-            } catch (\Throwable $e) {
-                ++$failed;
-                $io->error(sprintf('Fehler beim Senden an %s: %s', $item->getUser()->getEmail(), $e->getMessage()));
-            }
+        foreach ($result['sentEmails'] as $email) {
+            $io->writeln(sprintf('  ✓ Gesendet an %s', $email));
         }
 
-        $io->success(sprintf('%d Erinnerung(en) gesendet, %d fehlgeschlagen.', $sent, $failed));
+        foreach ($result['failedEmails'] as $email) {
+            $io->error(sprintf('Fehler beim Senden an %s', $email));
+        }
 
-        return $failed > 0 ? Command::FAILURE : Command::SUCCESS;
+        $io->success(sprintf('%d Erinnerung(en) gesendet, %d fehlgeschlagen.', $result['sent'], $result['failed']));
+
+        return $result['failed'] > 0 ? Command::FAILURE : Command::SUCCESS;
     }
 }

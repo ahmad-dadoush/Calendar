@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erinnerungen{% endblock %}
+
+{% block body %}
+    <section data-controller="reminder">        
+        <div class="app-content-box">
+            <div class="alert alert-warning u-mb-3">
+                <strong>Hinweis:</strong> Diese Seite dient ausschließlich zu Demonstrationszwecken. Im produktiven Betrieb würde der Erinnerungsversand automatisch per geplanter Aufgabe (Cronjob) ausgeführt und wäre nicht manuell zugänglich.
+            </div>
+            <div class="u-flex u-flex-justify-between u-flex-align-center u-mb-3">
+                <p data-reminder-target="emptyState">
+                    Hier kannst du Erinnerungs-E-Mails für alle Kalendereinträge versenden, deren Erinnerungsdatum heute fällig ist. Klicke auf die Schaltfläche, um den Versand manuell auszulösen.
+                </p>
+                <button 
+                    type="button" 
+                    class="btn btn-primary"
+                    data-action="click->reminder#sendAll"
+                    data-reminder-target="sendButton">
+                    Erinnerungen senden
+                </button>
+            </div>
+
+            <div id="reminderFeedback" data-reminder-target="feedback" class="u-hidden"></div>
+        </div>
+    </section>
+{% endblock %}

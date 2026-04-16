@@ -4,7 +4,8 @@
     {% set currentRoute = app.request.attributes.get('_route') %}
     {% set navItems = [
         { route: 'app_home', label: 'Home' },
-        { route: 'app_calendar', label: 'Kalendar' }
+        { route: 'app_calendar', label: 'Kalendar' },
+        { route: 'app_reminder', label: 'Erinnerungen' }
     ] %}
 
     <nav aria-label="Hauptnavigation" class="app-nav">

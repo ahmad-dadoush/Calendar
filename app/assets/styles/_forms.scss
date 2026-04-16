@@ -15,17 +15,4 @@ form {
         border: 1px solid var(--border-color);
         font-size: 1rem;
     }
-
-
-    button {
-        text-transform: uppercase;
-        font-weight: bold;
-        margin-top: 0.5rem;
-        padding: 0.5rem;
-        border: none;
-        background-color: transparent;
-        color: var(--primary-color);
-        font-size: medium;
-        cursor: pointer;
-    }
 }
